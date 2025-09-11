@@ -1,0 +1,136 @@
+.login-background {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2d0036, #1a0033, #3a185a, #2d0036);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  animation: breathing-gradient 20s ease-in-out infinite alternate;
+  transition: background 0.5s;
+}
+
+@keyframes breathing-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.login-center-container {
+  background: rgba(40, 10, 60, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 18px;
+  padding: 2rem 2rem;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-center-container h1,
+.login-center-container h2,
+.login-center-container h3,
+.login-center-container label {
+  color: #f3e9ff;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.03em;
+  text-shadow: 0 2px 8px rgba(80, 0, 120, 0.25);
+}
+
+.login-center-container input,
+.login-center-container button {
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-size: 1rem;
+}
+
+.login-center-container button {
+  background: linear-gradient(90deg, #a259ff 0%, #6a11cb 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 2em;
+  margin-top: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(80, 0, 120, 0.18);
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.login-center-container button:hover {
+  background: linear-gradient(90deg, #6a11cb 0%, #a259ff 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.login-center-container input[type="email"],
+.login-center-container input[type="password"] {
+  width: 220px;
+  padding: 0.5em 0.8em;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f3e9ff;
+  margin-bottom: 1.1em;
+  outline: none;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.login-center-container input[type="email"]:focus,
+.login-center-container input[type="password"]:focus {
+  border: 1.5px solid #6a11cb;
+  box-shadow: 0 0 0 2px rgba(162, 89, 255, 0.12);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.form-row label {
+  min-width: 90px;
+  text-align: center;
+  margin-right: 1em;
+  color: #f3e9ff;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+}
+
+.form-row input[type="email"],
+.form-row input[type="password"] {
+  width: 180px;
+  padding: 0.5em 0.8em;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f3e9ff;
+  outline: none;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-bottom: 1em;
+  text-align: center;
+}

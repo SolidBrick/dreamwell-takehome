@@ -1,75 +1,33 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import "./App.css";
-import { client } from "./lib/appwrite";
+import "./css/App.css";
+import { client, account } from "./lib/appwrite";
 import { AppwriteException } from "appwrite";
-import AppwriteSvg from "../public/appwrite.svg";
-import ReactSvg from "../public/react.svg";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const [detailHeight, setDetailHeight] = useState(55);
-  const [logs, setLogs] = useState([]);
-  const [status, setStatus] = useState("idle");
-  const [showLogs, setShowLogs] = useState(false);
-
-  const detailsRef = useRef(null);
-
-  const updateHeight = useCallback(() => {
-    if (detailsRef.current) {
-      setDetailHeight(detailsRef.current.clientHeight);
-    }
-  }, [logs, showLogs]);
-
   useEffect(() => {
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [updateHeight]);
-
-  useEffect(() => {
-    if (!detailsRef.current) return;
-    detailsRef.current.addEventListener("toggle", updateHeight);
-
-    return () => {
-      if (!detailsRef.current) return;
-      detailsRef.current.removeEventListener("toggle", updateHeight);
+    const signOutOnRefresh = async () => {
+      try {
+        // Deletes the current session (logs out the user)
+        await account.deleteSession("current");
+        console.log("User signed out on refresh");
+      } catch (error) {
+        console.log("No active session or already signed out", error);
+      }
     };
+
+    signOutOnRefresh();
   }, []);
-
-  async function sendPing() {
-    if (status === "loading") return;
-    setStatus("loading");
-    try {
-      const result = await client.ping();
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: 200,
-        response: JSON.stringify(result),
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("success");
-    } catch (err) {
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: err instanceof AppwriteException ? err.code : 500,
-        response:
-          err instanceof AppwriteException
-            ? err.message
-            : "Something went wrong",
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("error");
-    }
-    setShowLogs(true);
-  }
-
   return (
-    <div>
-      <p>Get started boi</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
