@@ -1,5 +1,4 @@
 import { useState, React, useEffect } from "react";
-import { useBrandInfo } from "./useBrandInfo";
 
 export function useBrandSearch(apiKey) {
   const [brandInput, setBrandInput] = useState("");
