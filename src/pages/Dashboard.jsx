@@ -1,20 +1,32 @@
 import "../css/Dashboard.css";
-import { client, databases } from "../lib/appwrite";
+import { client, databases, fetchBrandInfo } from "../lib/appwrite";
 import { useState, useEffect, React } from "react";
-import { useBrandInfo } from "./useBrandInfo";
 import { useBrandSearch } from "./useBrandSearch";
 
 export default function Dashboard() {
   const [items, setItems] = useState([]);
-  const {
-    brandInput,
-    setBrandInput,
-    textareaValue,
-    productsList,
-    handleBrandSubmit,
-    loading,
-    error,
-  } = useBrandSearch(import.meta.env.VITE_OPENAI_API_KEY);
+  const [brandInput, setBrandInput] = useState("");
+  const [textareaValue, setTextareaValue] = useState("");
+  const [productsList, setProductsList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleBrandSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setTextareaValue("");
+    setProductsList([]);
+    try {
+      const data = await fetchBrandInfo(brandInput);
+      setTextareaValue(data.description || "");
+      setProductsList(data.products || []);
+    } catch (err) {
+      setError(err.message || "Failed to fetch brand info.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchItems() {
@@ -60,8 +72,8 @@ export default function Dashboard() {
                 }
               }}
             />
-            {error && <div className="error-message">{error}</div>}
           </div>
+          {error && <div className="error-message">{error}</div>}
         </div>
         <div className="dashboard-item-list-container"></div>
         <div className="dashboard-main-content">
