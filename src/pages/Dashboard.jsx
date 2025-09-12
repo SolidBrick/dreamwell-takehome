@@ -61,6 +61,7 @@ export default function Dashboard() {
             <textarea
               className="brand-description-textarea"
               value={textareaValue ? textareaValue : "No brand found"}
+              onChange={(e) => setTextareaValue(e.target.value)}
               placeholder={
                 loading ? "Loading..." : "Brand description will appear here"
               }
